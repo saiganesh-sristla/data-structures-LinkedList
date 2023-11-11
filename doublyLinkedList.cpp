@@ -75,6 +75,37 @@ void insertAtPosition(Node* &head, Node* &tail, int position, int data){
   NodeToInsert -> prev = temp;
 }
 
+void deleteNode(Node* &head, Node* &tail, int position){
+  if(position == 1){
+    head = head -> next;
+    head -> prev -> next = NULL;
+    delete head -> prev;
+    head -> prev = NULL;
+  }
+  else{
+    Node* temp = head;
+    int count = 1;
+    while(count < position){
+      temp = temp -> next;
+      count++;
+    }
+    if(temp == tail){
+      tail = tail -> prev;
+      tail -> next -> prev = NULL;
+      delete tail -> next;
+      tail -> next = NULL;
+    }
+
+    temp -> prev -> next = temp -> next;
+    temp -> next -> prev = temp -> prev;
+    temp -> next = NULL;
+    temp -> prev = NULL;
+    delete temp;
+
+  }
+
+}
+
 int main() {
   Node* Node1 = new Node(2);
   Node* head = Node1;
@@ -88,6 +119,9 @@ int main() {
   print(head);
 
   insertAtPosition(head, tail, 2, 7);
+  print(head);
+
+  deleteNode(head, tail, 2);
   print(head);
   cout << "Length " << getLength(head) << endl;
   cout << "Head " << head -> data << endl;
